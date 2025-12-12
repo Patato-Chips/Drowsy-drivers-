@@ -1,0 +1,79 @@
+echo "# Drowsy-drivers-" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Patato-Chips/Drowsy-drivers-.git
+git push -u origin main
+
+
+const int switchPin = 4;
+int switchState = 0;             // the current switch state
+int prevSwitchState = 0;         // the previous switch state
+
+// variable to hold sensor value
+int sensorValue;
+// variable to calibrate low value
+int sensorLow = 1023;
+// variable to calibrate high value
+int sensorHigh = 0;
+// LED pin
+const int ledPin = 13;
+
+
+int const potPin = A0;  // analog pin used to connect the potentiometer
+int potVal;             // variable to read the value from the analog pin
+
+int notes[] = { 262, 294, 330, 349 };
+
+///////////////////////////////////////////////////////////////////////////
+void setup() {
+  // set the tilt switch pin as input
+  pinMode(switchPin, INPUT);
+
+pinMode(8, OUTPUT);
+
+//start serial communication
+   Serial.begin(9600);
+
+}
+////////////////////////////////////////////////////////////////////
+void loop() {
+
+
+ 
+
+
+  // put your main code here, to run repeatedly:
+ //tilt
+  
+  potVal = analogRead(potPin);  // read the value of the potentiometer
+  // read the switch value
+   switchState = digitalRead(switchPin);
+
+     delay(250);
+ Serial.print("state: ");
+Serial.println(switchState);
+
+ Serial.print("Angle: ");
+Serial.println(potVal);
+
+
+
+  // if the switch has changed
+  if ((switchState != prevSwitchState)&&(potVal > 200)) {
+    // turn all the LEDs low
+    // map the sensor values to a wide range of pitches
+    
+  tone(8, notes[1]);
+  delay(500);
+  tone(8, notes[2]);
+  delay(500);
+    }else {
+    // if the value is out of range, play no tone
+    noTone(8);
+  }
+   // set the previous switch state to the current state
+  
+prevSwitchState = switchState;
+  }
